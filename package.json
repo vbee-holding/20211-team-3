@@ -1,0 +1,35 @@
+{
+  "name": "team3",
+  "version": "1.0.0",
+  "description": "news, bao moi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "AnhDo",
+  "license": "ISC",
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^31.1.0",
+    "@ckeditor/ckeditor5-react": "^3.0.3",
+    "bcrypt": "^5.0.1",
+    "concurrently": "^6.4.0",
+    "cookie-parser": "^1.4.6",
+    "debug": "^4.3.3",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "formidable": "^2.0.1",
+    "fs": "^0.0.1-security",
+    "http-errors": "^1.8.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^6.1.1",
+    "mongoose-double": "^0.0.1",
+    "morgan": "^1.10.0",
+    "node-cron": "^3.0.0",
+    "node-schedule": "^2.1.0",
+    "nodemodule": "^0.3.0",
+    "nodemon": "^2.0.15"
+  }
+}
