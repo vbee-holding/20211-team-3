@@ -4,6 +4,7 @@ class BaseModel{
     constructor(res){
         this.res = res
         this.host_name = null
+        this.articles = []
         this.init()
     }
 
@@ -39,7 +40,7 @@ class ZingNewsModel extends BaseModel{
     parse(){
         let $ = this.res.$
         let self = this
-        return $("article").each((index, element)=>{
+        $("article").each((index, element)=>{
             let element_query =  $(element)
             let article = {
                 title: element_query.find('.article-title').text().trim(),
@@ -53,7 +54,9 @@ class ZingNewsModel extends BaseModel{
             }
             article.release_time = article.release_time.split(" ").reverse().join(" ")
             this.normalizeTime(article)
+            this.articles.push(article)
         })
+        return this.articles
     }
 }
 
@@ -66,7 +69,7 @@ class SuckhoedoisongModel extends BaseModel{
     parse(){
         let $ = this.res.$
         let self = this
-        return $(".box-category-item").each((index, element)=>{
+        $(".box-category-item").each((index, element)=>{
             let element_query =  $(element)
             let article = {
                 title: element_query.find('a[data-type="title"]').text().trim(),
@@ -79,8 +82,9 @@ class SuckhoedoisongModel extends BaseModel{
                 release_time: element_query.find(".box-category-time.time-ago").text()
             }
             this.normalizeTime(article)
-            // console.log(article)
+            this.articles.push(article)
         })
+        return this.articles
     }
 }
 
@@ -92,7 +96,7 @@ class BaoTinTucModel extends BaseModel{
     parse(){
         let $ = this.res.$
         let self = this
-        return $(".ccl-item").each((index, element)=>{
+        $(".ccl-item").each((index, element)=>{
             let element_query =  $(element)
             let article = {
                 title: element_query.find('.item_title').text().trim(),
@@ -105,8 +109,9 @@ class BaoTinTucModel extends BaseModel{
                 release_time: element_query.find(".box-category-time.time-ago").text()
             }
             this.normalizeTime(article)
-            console.log(article)
+            this.articles.push(article)
         })
+        return this.articles
     }
 }
 
@@ -118,7 +123,7 @@ class TienphongModel extends BaseModel{
     parse(){
         let $ = this.res.$
         let self = this
-        return $("article").each((index, element)=>{
+        $("article").each((index, element)=>{
             let element_query =  $(element)
             let article = {
                 title: element_query.find('a[title]').text().trim(),
@@ -131,9 +136,38 @@ class TienphongModel extends BaseModel{
             }
             article.release_time = article.release_time.split(" ").reverse().join(" ")
             this.normalizeTime(article)
-            // console.log(article)
+            this.articles.push(article)
         })
+        return this.articles
         
+    }
+}
+
+class VnExpressModel extends BaseModel{
+    init(){
+        this.host_name = "vnexpress.net"
+    }
+
+    parse(){
+        let $ = this.res.$
+        let self = this
+        $(".item-news.item-news-common").each((index, element)=>{
+            let element_query =  $(element)
+            let article = {
+                title: element_query.find('h3 a[title]').text().trim(),
+                link: element_query.find('a').attr("href"),
+                thumbnail: element_query.find('img').attr("data-src"),
+                sapo: element_query.find(".description a").text().trim(),
+                category: element_query.find(".story__meta a").text().trim() || element_query.find(".article-category").text().trim(),
+                source: self.host_name,
+                release_time: (element_query.find(".time").text() + " " + element_query.find(".date").text()).trim()
+            }
+            article.release_time = article.release_time.split(" ").reverse().join(" ")
+            this.normalizeTime(article)
+            this.articles.push(article)
+            
+        })
+        return this.articles
     }
 }
 
@@ -147,7 +181,7 @@ var c = new Crawler({
             let articles = []
             // console.log(res)
             // console.log(res.request.uri.hostname)
-            console.log(new TienphongModel(res).parse())
+            console.log(new VnExpressModel(res).parse())
         }
         done();
     }
@@ -162,6 +196,5 @@ var c = new Crawler({
 // c.queue('https://nhandan.vn/')
 // c.queue('https://vnexpress.net/')
 
-
-var crawlerModelClasses = [TienphongModel, ZingNewsModel, BaoTinTucModel, SuckhoedoisongModel]
+var crawlerModelClasses = [TienphongModel, ZingNewsModel, BaoTinTucModel, SuckhoedoisongModel, VnExpressModel]
 export {crawlerModelClasses}
