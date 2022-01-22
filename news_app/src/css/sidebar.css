@@ -1,0 +1,46 @@
+.sidebar ul{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+.sidebar ul li{
+    font-size: 10.5px;
+    text-transform: uppercase;
+    list-style-type: none;
+    width: 50%;
+    background-color: #666;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+    border-left: 1px solid #ddd;
+}
+.sidebar_trending{
+    padding: 0px 15px;
+    border: 1px solid #ddd;
+}
+.sidebar_trending_content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    position: relative;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+.sidebar_trending_ranking{
+    width: 5%;
+    font-size: 20px;
+    position:absolute;
+    margin-top: -25px;
+}
+.sidebar_trending_title{
+    font-size: 16px;
+    color: #333333;
+    margin-left: 25px;
+    margin-right: 13px;
+}
+.sidebar_trending_content img{
+    width: 20%;
+}
