@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -10,10 +10,10 @@ const style = {
 };
 
 export default function AdditionalNew() {
-  const [newsReel, setNewsReel] = React.useState([]);
-  const [newsEntertainment, setNewsEntertainment] = React.useState([]);
+  const [newsReel, setNewsReel] = useState([]);
+  const [newsEntertainment, setNewsEntertainment] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchNewsReelData = async () => {
       const res = await axios.get("/news/newsReels", {
         params: { newsId: "5dbe935fd84e1413ac50c2bc" }

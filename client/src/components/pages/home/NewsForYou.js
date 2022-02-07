@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
@@ -10,11 +10,13 @@ export default function NewsOther() {
    const userId = sessionStorage.getItem('userId') || null;
    const token = localStorage.getItem("auth-token");
 
-   React.useEffect(() => {
+   useEffect(() => {
 	  if (userId) {
 		 const fetchData = async () => {
 			const res = await axios.get("/news/newsForYou", { params: { userId: userId } });
-			const data = res.data.data;
+			let data = res.data.data;
+			if(!data)
+				data = []
 
 			setNews(data);
 		 };
@@ -39,7 +41,7 @@ export default function NewsOther() {
 						>
 						   <div className="other-new__image border border-secondary">
 							  <img
-								 src={`/uploads/news/${item.articlePicture}`}
+								 src={item.content === "" ? item.articlePicture: `/uploads/news/${item.articlePicture}`}
 								 alt={item.title}
 							  />
 						   </div>

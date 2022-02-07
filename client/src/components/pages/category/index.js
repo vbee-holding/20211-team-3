@@ -2,8 +2,8 @@ import React from "react";
 import {Helmet} from 'react-helmet';
 import axios from "axios";
 
-import NewsHighlight from "./NewsHighlight";
-import NewsOther from "./NewsOther";
+import HightlightedNews from "./HightlightedNews";
+import OtherNews from "./OtherNews";
 import FeaturedChannel from "../home/FeaturedChannel";
 import LatestNew from "../home/LatestNew";
 
@@ -33,13 +33,14 @@ export default function Category({ match }) {
 			return res.data.data.find(item => item.view > view);
 		 }
 
-		 const highlightNew = getDataByView(9);
+		 const highlightNew = getDataByView(1);
 
 		 setTags(getTags());
 		 setHighlightNew(highlightNew);
 		 setNewByTag(res.data.data)
 
-		 setCategoryName(res.data.data[0].cateNews.name);
+		 if(res.data.data[0])
+		 	setCategoryName(res.data.data[0].cateNews.name);
 	  };
 
 	  fetchData();
@@ -55,10 +56,10 @@ export default function Category({ match }) {
 			<div className="container">
 			   <div className="row">
 				  <div className="col-xl-9 col-lg-9 col-sm-12">
-					 <NewsHighlight highlightNew={highlightNew} />
+					 <HightlightedNews news={highlightNew} />
 					 {
 						highlightNew
-						   ? (<NewsOther tags={tags} newByTag={newByTag} newsHighlightId={highlightNew._id} highlightNew={highlightNew} />)
+						   ? (<OtherNews tags={tags} newByTag={newByTag} newsHighlightId={highlightNew._id} highlightNew={highlightNew} />)
 						   : null
 					 }
 				  </div>

@@ -5,7 +5,6 @@ import LatestNew from "./LatestNew";
 import FeaturedNew from "./FeaturedNew";
 import FeaturedChannel from "./FeaturedChannel";
 import NewsOther from "./NewsOther";
-import NewsForYou from "./NewsForYou";
 import AdditionalNew from "./AdditionalNew";
 
 const style = {
@@ -35,12 +34,6 @@ export default function Home() {
         </div>
         <div style={style} className="row border border-secondary rounded mt-5 p-1">
           <AdditionalNew />
-        </div>
-        <div className="row">
-          <div className="col-lg-9 main-featured-new">
-            <h3 className="mb-3 mt-3">Dành cho bạn</h3>
-            <NewsForYou />
-          </div>
         </div>
         <div className="row">
           <div className="col-lg-9 main-featured-new">

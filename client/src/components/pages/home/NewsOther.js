@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
@@ -13,7 +13,7 @@ export default function NewsOther() {
   const appState = useSelector(state => state);
   let number = 0;
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getNewsOther(8));
 
   }, [dispatch]);
@@ -53,7 +53,7 @@ export default function NewsOther() {
               >
                 <div className="other-new__image border border-secondary">
                   <img
-                    src={`/uploads/news/${item.articlePicture}`}
+                    src={item.content === "" ? item.articlePicture: `/uploads/news/${item.articlePicture}`}
                     alt={item.title}
                   />
                 </div>

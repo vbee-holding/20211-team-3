@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,7 +10,7 @@ export default function LatestNew() {
   const appState = useSelector(state => state);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getLatestNews());
 
   }, [dispatch]);
@@ -24,30 +24,14 @@ export default function LatestNew() {
       <h3 className="mb-3">Tin tức mới nhất</h3>
       {
         latest
-        ? (
-          latest.map((item, index) => {
-            let url = `/${hanldeUrlPretty(item.title)}/${item._id}`
-            if(item.content == ""){
-              return (
-                <a href={item.originalLink} className="latest-new p-1 bg-white rounded text-decoration-none text-dark">
-                  <div className="latest-new__image">
-                    <img
-                      src={item.articlePicture}
-                      alt={item.title}
-                    />
-                  </div>
-                  <div className="latest-new__info">
-                    <h5 className="latest-new__title font-weight">{item.title}</h5>
-                  </div>
-                </a>
-              )
-            }
-            else
+          ? (
+            latest.map((item, index) => {
+              let url = `/${hanldeUrlPretty(item.title)}/${item._id}`
               return (
                 <Link to={url} key={index} className="latest-new p-1 bg-white rounded text-decoration-none text-dark">
                   <div className="latest-new__image">
                     <img
-                      src={`/uploads/news/${item.articlePicture}`}
+                      src={item.content === "" ? item.articlePicture: `/uploads/news/${item.articlePicture}`}
                       alt={item.title}
                     />
                   </div>
@@ -56,9 +40,9 @@ export default function LatestNew() {
                   </div>
                 </Link>
               )
-          })
-        )
-        : (<BoxLoadingItem />)
+            })
+          )
+          : (<BoxLoadingItem />)
       }
     </div>
   );
