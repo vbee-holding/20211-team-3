@@ -6,7 +6,7 @@ import moment from "moment"
 import {CronJob} from "cron"
 
 const service = new Service()
-let allCategories = service.getAllCategories()
+let allCategories = await service.getAllCategories()
 const adminCrawler = "61f2466507c5fb78061d2c74"
 
 async function putCrawledArticle(article){
@@ -24,12 +24,14 @@ async function putCrawledArticle(article){
             originalLink: article.link,
             sapo: article.sapo,
             source: article.source,
-            dateCreate: moment(Date.parse(article.dateCreate)).format('YYYY-MM-DD HH:mm:ss Z')
         }
-        if(!Object.values(articleMapped).map(value => value === undefined).includes(true))
-            console.log(await (await new Service().putNews(articleMapped)).data.message)
-        else
-            console.log("Has field undefined")
+        if(article.dateCreate){
+            articleMapped.dateCreate = moment(Date.parse(article.dateCreate)).format('YYYY-MM-DD HH:mm:ss Z')
+        }
+        if(!Object.values(articleMapped).map(value => value === undefined).includes(true)){
+            console.log(await (await new Service().putNews(articleMapped)).data.message + " " + articleMapped.title)
+        }
+            
     }catch(err){
         console.log("Error put: " + err)
     }
@@ -58,7 +60,6 @@ class ArticalCrawler{
                         let model = new modelClass(res)
                         if(model.canParse()){
                             Array.prototype.push.apply(self.result, model.parse(model))
-                            self.result = self.result.slice(0, 10)
                             for(let artical of self.result){
                                 putCrawledArticle(artical)
                             }
@@ -70,20 +71,12 @@ class ArticalCrawler{
         });
     }
 
-    add(url){
-        this.crawler.queue()
-    }
-
     crawl(){
         // Queue just one URL, with default callback
         this.crawler.queue('https://zingnews.vn/');
-        // this.crawler.queue('https://suckhoedoisong.vn/');
-        // this.crawler.queue("https://baotintuc.vn/")
-        // this.crawler.queue("https://tienphong.vn/")
-        // this.crawler.queue('https://vietnamnet.vn/')
-        // this.crawler.queue('https://tienphong.vn/')
-        // this.crawler.queue('https://nhandan.vn/')
-        // this.crawler.queue('https://vnexpress.net/')
+        this.crawler.queue('https://suckhoedoisong.vn/');
+        this.crawler.queue("https://baotintuc.vn/")
+        this.crawler.queue("https://tienphong.vn/")
     }
 }
 
