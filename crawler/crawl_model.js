@@ -26,9 +26,7 @@ class BaseModel{
         article.dateCreate = day + " " + time
     }
 
-    parse(){
-
-    }
+    parse(){}
 }
 
 class ZingNewsModel extends BaseModel{

@@ -41,7 +41,6 @@ async function putCrawledArticle(article){
                 }
                 console.log(logResult)
             }
-                
         }  
     }catch(err){
         console.log("Error put: " + err.stack)
