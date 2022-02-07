@@ -1,4 +1,4 @@
-import Crawler from "crawler"
+import cheerio from 'cheerio';
 
 class BaseModel{
 
@@ -20,6 +20,7 @@ class BaseModel{
     }
 
     normalizeTime(article){
+        // 04-02-2022 14:20 => 2022-02-04 14:20
         const day = article.dateCreate.split(" ")[0].split("/").reverse().join("/")
         const time = article.dateCreate.split(" ")[1]
         article.dateCreate = day + " " + time
@@ -106,10 +107,8 @@ class BaoTinTucModel extends BaseModel{
                 thumbnail: element_query.find('img').attr("src"),
                 sapo: element_query.find('.item_title').text().trim(),
                 category: element_query.find(".item_info .item_cat").text().trim(),
-                source: self.hostName,
-                dateCreate: element_query.find(".box-category-time.time-ago").text()
+                source: self.hostName
             }
-            this.normalizeTime(article)
             this.articles.push(article)
         })
 
@@ -133,11 +132,8 @@ class TienphongModel extends BaseModel{
                 thumbnail: element_query.find('img').attr("data-src"),
                 sapo: element_query.find(".story__summary").text().trim(),
                 category: element_query.find(".story__meta a").text().trim() || element_query.find(".article-category").text().trim(),
-                source: self.hostName,
-                dateCreate: (element_query.find(".time").text() + " " + element_query.find(".date").text()).trim()
+                source: self.hostName
             }
-            article.dateCreate = article.dateCreate.split(" ").reverse().join(" ")
-            this.normalizeTime(article)
             this.articles.push(article)
         })
 
@@ -150,22 +146,23 @@ class VnExpressModel extends BaseModel{
         this.hostName = "vnexpress.net"
     }
 
-    parse(){
+    async parse(){
         const $ = this.res.$
         const self = this
-        $(".item-news.item-news-common").each((index, element)=>{
+        $(".item-news.item-news-common").each(async (index, element)=>{
             const element_query =  $(element)
             const article = {
                 title: element_query.find('h3 a[title]').text().trim(),
                 link: element_query.find('a').attr("href"),
                 thumbnail: element_query.find('img').attr("data-src"),
                 sapo: element_query.find(".description a").text().trim(),
-                category: element_query.find(".story__meta a").text().trim() || element_query.find(".article-category").text().trim(),
                 source: self.hostName,
                 dateCreate: (element_query.find(".time").text() + " " + element_query.find(".date").text()).trim()
             }
-            article.dateCreate = article.dateCreate.split(" ").reverse().join(" ")
-            this.normalizeTime(article)
+            let res = await fetch(article.link)
+            let temp = cheerio.load(res.text())
+            article.category = temp("a[data-medium]").attr("title")
+            console.log(article.category)
             this.articles.push(article)
         })
         
@@ -173,29 +170,6 @@ class VnExpressModel extends BaseModel{
     }
 }
 
-function test() {
-    var crawler = new Crawler({
-        maxConnections : 10,
-        // This will be called for each crawled page
-        callback : function (error, res, done) {
-            if(error){
-                console.log(error)
-            }else{
-                console.log(new VnExpressModel(res).parse())
-            }
-            done();
-        }
-    });    
-    // Queue just one URL, with default callback
-    // crawler.queue('https://zingnews.vn/');
-    // crawler.queue('https://suckhoedoisong.vn/');
-    // crawler.queue("https://baotintuc.vn/")
-    // crawler.queue("https://tienphong.vn/")
-    // crawler.queue('https://vietnamnet.vn/')
-    // crawler.queue('https://tienphong.vn/')
-    // crawler.queue('https://nhandan.vn/')
-    // crawler.queue('https://vnexpress.net/')
-}
 
 const crawlerModelClasses = [TienphongModel, ZingNewsModel, BaoTinTucModel, SuckhoedoisongModel, VnExpressModel]
 export {crawlerModelClasses}
