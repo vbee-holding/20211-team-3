@@ -1,53 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React,{useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { getUsers } from "../../../actions/user.action";
-import BoxLoadingItem from "../../BoxLoadingItem";
-import { hanldeUrlPretty } from "../../mixin/UrlPretty";
 
 export default function FeaturedChannel() {
-  const appState = useSelector(state => state);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getUsers());
     
   }, [dispatch]);
 
-  const users = React.useMemo(() => {
-    return appState.users.users;
-  }, [appState.users.users]);
-
   return (
     <React.Fragment>
-      <div>
-        <h3 className="mb-3">Kênh uy tín</h3>
-        {users ? (
-          users.map((user, index) => (
-            <Link
-              to={`/channel/${hanldeUrlPretty(user.username)}/${user._id}`}
-              key={index}
-              className="channel p-1 bg-white rounded text-decoration-none text-dark"
-            >
-              <div className="channel__image rounded-sm">
-                <img src={`/uploads/users/${user.image}`} alt={user.username} />
-              </div>
-              <div className="channel__info">
-                <h5 className="channel__title m-0">
-                  {user.username.toUpperCase()}
-                </h5>
-                <p className="channel__follow text-secondary m-0">
-                  Followers: {user.follow}
-                </p>
-              </div>
-            </Link>
-          ))
-        ) : (
-          <BoxLoadingItem />
-        )}
-      </div>
-
       <div className="w-100 fanpage">
         <h3 className="mb-3 mt-4">Fanpage</h3>
         <iframe

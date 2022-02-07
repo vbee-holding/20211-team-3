@@ -1,35 +1,29 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import BoxLoadingItem from "../../BoxLoadingItem";
 import { hanldeUrlPretty } from "../../mixin/UrlPretty";
 
-export default function NewsHighlight(props) {
-  const [highlightNew, setHighlightNew] = React.useState({});
-
-  React.useEffect(() => {
-    setHighlightNew(props.highlightNew);
-    
-  }, [props.highlightNew]);
-
+export default function HightlightedNews(props) {
+  const news=props.news;
   return (
     <div>
       <h3 className="mb-3">Tin tức nổi bật</h3>
-      {highlightNew ? (
+      {news ? (
         <Link
-          to={`/${highlightNew.title && hanldeUrlPretty(highlightNew.title)}/${highlightNew._id}`}
+          to={`/${news.title && hanldeUrlPretty(news.title)}/${news._id}`}
           className="featured-new p-3 bg-white rounded text-decoration-none"
         >
-          {highlightNew.articlePicture ? (
+          {news.articlePicture ? (
             <div className="featured-new__image border border-secondary">
               <img
-                src={`/uploads/news/${highlightNew.articlePicture}`}
-                alt={highlightNew.title}
+                src={news.content === "" ? news.articlePicture: `/uploads/news/${news.articlePicture}`}
+                alt={news.title}
               />
             </div>
           ) : (<BoxLoadingItem />)}
           <div className="featured-new__info">
-            <h4 className="featured-new__title">{highlightNew.title}</h4>
+            <h4 className="featured-new__title">{news.title}</h4>
           </div>
         </Link>
       ) : (

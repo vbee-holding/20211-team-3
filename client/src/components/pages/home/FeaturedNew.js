@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useMemo} from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +16,7 @@ export default function FeaturedNew() {
     dispatch(getNews());
   }, [dispatch]);
 
-  const featured = React.useMemo(() => {
+  const featured = useMemo(() => {
     return appState.news.data;
   }, [appState.news.data]);
 
@@ -27,7 +27,7 @@ export default function FeaturedNew() {
             <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="featured-new p-3 bg-white rounded text-decoration-none">
               <div className="featured-new__image border border-secondary">
                 <img
-                  src={`/uploads/news/${item.articlePicture}`}
+                  src={item.content === "" ? item.articlePicture: `/uploads/news/${item.articlePicture}`}
                   alt={item.title}
                 />
               </div>
