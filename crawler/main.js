@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'
 import { crawlerModelClasses } from "./crawl_model.js";
 import Crawler from "crawler";
 import Service from "./service.js";
@@ -5,9 +6,10 @@ import Utils from "./utils.js";
 import moment from "moment"
 import {CronJob} from "cron"
 
-const service = new Service()
+dotenv.config()
+const service = new Service('http://localhost:3000/')
 let allCategories = await service.getAllCategories()
-const adminCrawler = "61f2466507c5fb78061d2c74"
+const adminCrawler = process.env.ADMIN_ID
 
 async function putCrawledArticle(article){
     try{
@@ -28,21 +30,34 @@ async function putCrawledArticle(article){
         if(article.dateCreate){
             articleMapped.dateCreate = moment(Date.parse(article.dateCreate)).format('YYYY-MM-DD HH:mm:ss Z')
         }
-        if(!Object.values(articleMapped).map(value => value === undefined).includes(true)){
-            console.log(await (await new Service().putNews(articleMapped)).data.message + " " + articleMapped.title)
-        }
-            
+        const isValidArticle = !Object.values(articleMapped).map(value => value === undefined).includes(true)
+        if(isValidArticle){
+            const newArticle = await service.putNews(articleMapped)
+            if(newArticle?.data?.message){
+                const logResult = {
+                    msg: newArticle.data.message,
+                    link: articleMapped.originalLink,
+                    category: articleMapped.cateNews
+                }
+                console.log(logResult)
+            }
+                
+        }  
     }catch(err){
-        console.log("Error put: " + err)
+        console.log("Error put: " + err.stack)
     }
 }
 
 function getCategory(categoryRaw) {
     for(let cate of allCategories){
-        if(Utils.stringToSlug(categoryRaw) == Utils.stringToSlug(cate.name)){
-            return cate
+        try{
+            if(Utils.stringToSlug(categoryRaw) == Utils.stringToSlug(cate.name)){
+                return cate
+            }
+        }catch(err){
         }
     }
+    return undefined
 }
 
 class ArticalCrawler{
@@ -80,6 +95,16 @@ class ArticalCrawler{
     }
 }
 
+service.getAllCategories().then(async (categories)=>{
+    try{
+        console.log('Start: ' + new Date());
+        allCategories = categories
+        let crawler = new ArticalCrawler()
+        crawler.crawl()
+    }catch(error){
+        console.log(err)
+    }  
+})
 var job = new CronJob('*/1 * * * *', function() {
     service.getAllCategories().then(async (categories)=>{
         try{
@@ -91,6 +116,5 @@ var job = new CronJob('*/1 * * * *', function() {
             console.log(err)
         }  
     })
-
   }, null, true);
   job.start();

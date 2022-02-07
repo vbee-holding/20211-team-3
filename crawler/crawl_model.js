@@ -102,7 +102,7 @@ class BaoTinTucModel extends BaseModel{
             const element_query =  $(element)
             const article = {
                 title: element_query.find('.item_title').text().trim(),
-                link: self.getHostNameUrl() + element_query.find('a[data-type="title"]')
+                link: self.getHostNameUrl() + element_query.find('a[title]')
                     .attr("href"),
                 thumbnail: element_query.find('img').attr("src"),
                 sapo: element_query.find('.item_title').text().trim(),
@@ -169,7 +169,6 @@ class VnExpressModel extends BaseModel{
         return this.articles
     }
 }
-
 
 const crawlerModelClasses = [TienphongModel, ZingNewsModel, BaoTinTucModel, SuckhoedoisongModel, VnExpressModel]
 export {crawlerModelClasses}
