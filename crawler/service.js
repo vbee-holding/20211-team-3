@@ -2,9 +2,13 @@ import axios from 'axios';
 
 class Service {
 
+    constructor(serviceURL){
+        this.serviceURL = serviceURL
+    }
+
     getAPI(entityName){
         const api = axios.create({
-            baseURL: 'http://localhost:3000/' + entityName
+            baseURL: this.serviceURL + entityName
         });
 
         return api
