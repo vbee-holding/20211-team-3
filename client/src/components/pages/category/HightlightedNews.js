@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import BoxLoadingItem from "../../BoxLoadingItem";
 import { hanldeUrlPretty } from "../../mixin/UrlPretty";
 
-export default function HightlightedNews(props) {
-  const news=props.news;
+export default function HightlightedNews({news}) {
   return (
     <div>
       <h3 className="mb-3">Tin tức nổi bật</h3>

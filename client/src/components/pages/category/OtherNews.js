@@ -31,9 +31,8 @@ export default function OtherNews(tags, newByTag, newsHighlightId, highlightNew)
 			   }
 			}
 
-			const rs = tags.filter(v => !tagsOtherNews.includes(v));
-
-			setTagsOtherNews(rs);
+			const otherNewsTags = tags.filter((tag) => !highlightNewTags.includes(tag));
+			setTagsOtherNews(otherNewsTags);
 		 }
 	  }
 
@@ -45,17 +44,14 @@ export default function OtherNews(tags, newByTag, newsHighlightId, highlightNew)
    return(
 	  <React.Fragment>
 		 {
-			tagsOtherNews
-			   ? (
+			tagsOtherNews && (
 				  tagsOtherNews.map((tag, index) => (
 					 <div className="" key={index}>
 						<h3 className="mb-3 mt-3">{tag}</h3>
 						{
-						   newByTagOtherNews
-							  ? (
+						   newByTagOtherNews && (
 								 newByTagOtherNews.map((item, index) => (
-									item.tag.includes(tag)
-									   ? (
+									item.tag.includes(tag) && (
 										  <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="other-new p-3 bg-white rounded text-decoration-none">
 											 <div className="other-new__image border border-secondary">
 												<img
@@ -69,15 +65,12 @@ export default function OtherNews(tags, newByTag, newsHighlightId, highlightNew)
 											 </div>
 										  </Link>
 									   )
-									   : null
 								 ))
 							  )
-							  : null
 						}
 					 </div>
 				  ))
 			   )
-			   : null
 		 }
 	  </React.Fragment>
    )
