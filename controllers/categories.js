@@ -8,7 +8,7 @@ const authCus = require("../middleware/checkCus");
 
 
 module.exports = {
-    get_categories : async function(req, res, next){
+    getCategories : async function(req, res, next){
         try {
           const categories = await CateNewsModel.find({ isDelete: false }).populate(
             "createdBy"
@@ -27,7 +27,7 @@ module.exports = {
           });
         }
       },
-    get_trash : async function(req, res, next) {
+    getTrash : async function(req, res, next) {
         try {
           const categories = await CateNewsModel.find({ isDelete: true }).populate(
             "createdBy"
@@ -47,7 +47,7 @@ module.exports = {
           });
         }
       },
-      get_idCate: auth, async function(req, res, next) {
+      getIdCate: auth, async function(req, res, next) {
         try {
           const _idCate = req.params._idCate;
           const categories = await CateNewsModel.find({
@@ -68,7 +68,7 @@ module.exports = {
           });
         }
       },
-      post_categories : async function(req, res, next) {
+      postCategories : async function(req, res, next) {
         try {
           const { category, createdBy } = req.body;
           // console.log(createdBy);
@@ -93,13 +93,13 @@ module.exports = {
           });
         }
       },
-      move_to_trash :  async function(req, res, next) {
+      moveToTrash :  async function(req, res, next) {
         try {
           const _id = req.params._id;
-          const cateExist = await CateNewsModel.findOne({ _id: _id });
+          const cateExist = await CateNewsModel.findOne({ id: _id });
       
           if (cateExist) {
-            const moveToTrash = await CateNewsModel.findOneAndUpdate({ _id: _id }, { isDelete: true });
+            const moveToTrash = await CateNewsModel.findOneAndUpdate({ id: _id }, { isDelete: true });
             const categories = await CateNewsModel.find({});
       
             if (moveToTrash) {
@@ -122,10 +122,10 @@ module.exports = {
       restoreFromTrash : async function(req, res, next) {
         try {
           const _id = req.params._id;
-          const cateExist = await CateNewsModel.findOne({ _id: _id });
+          const cateExist = await CateNewsModel.findOne({ id: _id });
       
           if (cateExist) {
-            const restoreFromTrash = await CateNewsModel.findOneAndUpdate({ _id: _id }, { isDelete: false });
+            const restoreFromTrash = await CateNewsModel.findOneAndUpdate({ id: _id }, { isDelete: false });
             const categories = await CateNewsModel.find({ isDelete: true });
       
             if (restoreFromTrash) {
@@ -146,9 +146,9 @@ module.exports = {
         }
       },
 
-      delete : async function(req, res, next) {
+      deleteCate : async function(req, res, next) {
         const cateId = req.params.id;
-        const cateCheck = CateNewsModel.findOne({ _id: cateId });
+        const cateCheck = CateNewsModel.findOne({ id: cateId });
         try {
           if (cateCheck) {
             const cateDelete = await CateNewsModel.findOneAndDelete({ _id: cateId });
