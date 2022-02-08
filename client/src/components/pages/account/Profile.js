@@ -2,6 +2,7 @@ import React from "react";
 import {Helmet} from 'react-helmet'
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 
 import { addUser } from "../../../actions/user.action";
 import { setMessage } from "../../../actions/message.action";
@@ -13,19 +14,19 @@ import Message from "../Message";
 import { closeMessage } from "../closeMessage";
 
 export default function Profile() {
-  const [userName, setUserName] = React.useState("");
-  const [userEmail, setUserEmail] = React.useState("");
-  const [userPassword, setUserPassword] = React.useState({});
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState({});
 
   // message error
-  const [userNameErr, setUserNameErr] = React.useState("");
-  const [userEmailErr, setUserEmailErr] = React.useState("");
-  const [userPasswordErr, setUserPasswordErr] = React.useState("");
-  const [userCurrentPasswordErr, setUserCurrentPasswordErr] = React.useState(
+  const [userNameErr, setUserNameErr] = useState("");
+  const [userEmailErr, setUserEmailErr] = useState("");
+  const [userPasswordErr, setUserPasswordErr] = useState("");
+  const [userCurrentPasswordErr, setUserCurrentPasswordErr] = useState(
     ""
   );
-  const [userNewPasswordErr, setUserNewPasswordErr] = React.useState("");
-  const [userNewPasswordAgainErr, setUserNewPasswordAgainErr] = React.useState(
+  const [userNewPasswordErr, setUserNewPasswordErr] = useState("");
+  const [userNewPasswordAgainErr, setUserNewPasswordAgainErr] = useState(
     ""
   );
 
@@ -33,7 +34,7 @@ export default function Profile() {
   const userId = sessionStorage.getItem("userId");
   const token = localStorage.getItem("auth-token") || "asdasd";
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
     const fetchUser = async () => {
       const res = await axios.get(`/login/${token}`);

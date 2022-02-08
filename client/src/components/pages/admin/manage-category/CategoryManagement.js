@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table-v6";
 import 'react-table-v6/react-table.css'
@@ -13,12 +13,12 @@ import { closeMessage } from "../../closeMessage";
 export default function Category() {
   let [deleteDisplay, setDeleteDisplay] = useState(false);
   let [IdDelete, setidDelete] = useState('');
-  const [categories, setCategories] = React.useState([]);
-  const [amountCategory, setAmountCategory] = React.useState(0);
-  const [amountTrash, setAmountTrash] = React.useState(0);
+  const [categories, setCategories] = useState([]);
+  const [amountCategory, setAmountCategory] = useState(0);
+  const [amountTrash, setAmountTrash] = useState(0);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
     const fetchCategories = async () => {
       const res = await axios.get("/cateNews");

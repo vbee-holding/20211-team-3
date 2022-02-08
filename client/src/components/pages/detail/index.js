@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Helmet } from 'react-helmet'
-
+import { useState, useEffect } from "react";
 import NewsDetail from "./NewsDetail";
 import NewsSimilar from "./NewsSimilar";
 import NewsOther from "../home/NewsOther";
@@ -11,10 +11,10 @@ import LatestNew from "../home/LatestNew.js";
 import NotExistNews from "./NotExistNews";
 
 export default function Detail({ match, location }) {
-  const [datas, setDatas] = React.useState({});
+  const [datas, setDatas] = useState({});
   const id = match.params.id;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(`/news/details/${id}`);
 

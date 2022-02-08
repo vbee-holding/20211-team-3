@@ -1,16 +1,17 @@
 import React from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addUser } from "../../../actions/user.action";
 import { setMessage } from "../../../actions/message.action";
 import { closeMessage } from "../closeMessage";
 
 export default function Infomation() {
-  const [users, setUsers] = React.useState("");
+  const [users, setUsers] = useState("");
   const appState = useSelector(state => state);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (appState.users.data) {
       setUsers(appState.users.data);
     }

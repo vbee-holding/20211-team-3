@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useEffect } from "react";
 import {useForm} from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { setMessage } from "../../../../actions/message.action";
@@ -10,7 +11,7 @@ export default function AddCategory() {
   const appState = useSelector(state => state);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
   }, [dispatch]);
 

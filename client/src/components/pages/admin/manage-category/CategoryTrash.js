@@ -5,16 +5,17 @@ import { setMessage } from "../../../../actions/message.action";
 import { useDispatch } from "react-redux";
 import ReactTable from "react-table-v6";
 import 'react-table-v6/react-table.css'
+import { useState, useEffect } from "react";
 import Confirm from "../Confirm";
 import Message from "../../Message";
 
 export default function CategoryTrash() {
   let [deleteDisplay, setDeleteDisplay] = useState(false);
   let [IdDelete, setidDelete] = useState('');
-  const [categories, setCategories] = React.useState([]);
+  const [categories, setCategories] = useState([]);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
     const fetchCategories = async () => {
       const res = await axios.get("/cateNews/trash");

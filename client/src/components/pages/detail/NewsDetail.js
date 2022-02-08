@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 import Cookies from "js-cookie";
@@ -24,9 +25,9 @@ class RedirectRoute extends React.Component {
 }
 
 export default function NewsDetail(props) {
-  const [datas, setDatas] = React.useState({});
-  const [comments, setComments] = React.useState([]);
-  const [content, setContent] = React.useState([]);
+  const [datas, setDatas] = useState({});
+  const [comments, setComments] = useState([]);
+  const [content, setContent] = useState([]);
   const dispatch = useDispatch();
   const userId = sessionStorage.getItem("userId");
 
@@ -63,7 +64,7 @@ export default function NewsDetail(props) {
   };
 
 
-  React.useEffect(() => {
+  useEffect(() => {
 
     if (props.datas) {
       setDatas(props.datas);

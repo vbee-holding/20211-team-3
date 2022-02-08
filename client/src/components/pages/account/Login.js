@@ -1,5 +1,6 @@
 import React from "react";
 import {Helmet} from 'react-helmet';
+import { useState } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -10,8 +11,8 @@ import { closeMessage } from "../closeMessage";
 import Message from "../Message";
 
 export default function Login({ history }) {
-   const [remember, setRemember] = React.useState(false);
-   const [user, setUser] = React.useState({});
+   const [remember, setRemember] = useState(false);
+   const [user, setUser] = useState({});
    const { register, handleSubmit, errors } = useForm();
 
    const token = localStorage.getItem("auth-token");

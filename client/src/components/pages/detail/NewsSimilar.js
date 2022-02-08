@@ -2,15 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
-
+import { useState, useEffect } from "react";
 import BoxLoadingItem from "../../BoxLoadingItem";
 import { hanldeUrlPretty } from "../../mixin/UrlPretty";
 
 export default function NewsSimilar(props) {
-  const [ datas, setDatas ] = React.useState([]);
+  const [ datas, setDatas ] = useState([]);
   const id = props.id;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(`/news/similar/${id}`);
 

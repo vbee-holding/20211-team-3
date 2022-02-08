@@ -2,14 +2,15 @@ import React from "react";
 import axios from "axios";
 import moment from "moment";
 import { Bar } from "react-chartjs-2";
+import { useState, useEffect } from "react";
 
 export default function ViewsTotal(props) {
-	const [ news, setNews ] = React.useState([]);
+	const [ news, setNews ] = useState([]);
 
 	const monthDefault = moment().format("YYYY-MM-DD");
 	const getMonth = props.month || monthDefault;
 
-	React.useEffect(() => {
+	useEffect(() => {
     try {
       const fetchData = async () => {
         const res = await axios.get("/statisticals/viewsOfMonth", { params: { month: getMonth } });

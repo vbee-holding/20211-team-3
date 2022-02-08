@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
 import DatePicker from "react-datepicker";
@@ -8,11 +9,11 @@ import ViewsTotal from "./statisticals/ViewsTotal";
 import Follow from "./statisticals/Follow";
 
 export default function Dashboard() {
-  const [news, setNews] = React.useState([]);
-  const [month, setMonth] = React.useState("");
-  const [startDate, setStartDate] = React.useState(new Date());
+  const [news, setNews] = useState([]);
+  const [month, setMonth] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
 
-  React.useEffect(() => {
+  useEffect(() => {
     try {
       const fetchData = async () => {
         const res = await axios.get("/statisticals/viewsOfDay");

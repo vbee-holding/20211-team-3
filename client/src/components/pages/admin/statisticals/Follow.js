@@ -1,13 +1,13 @@
 import React from "react";
 import axios from "axios";
 import { Pie } from "react-chartjs-2";
+import { useState, useEffect } from "react";
 
 export default function Follow() {
-	// const [ channels, setChannels ] = React.useState([]);
-	const [ channelName, setChannelName ] = React.useState([]);
-	const [ follow, setFollow ] = React.useState(0);
+	const [ channelName, setChannelName ] = useState([]);
+	const [ follow, setFollow ] = useState(0);
 
-	React.useEffect(() => {
+	useEffect(() => {
     try {
       const fetchData = async () => {
         const res = await axios.get("/statisticals/channels");

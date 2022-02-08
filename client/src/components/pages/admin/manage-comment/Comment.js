@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
 import { useForm} from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../../../../actions/message.action";
@@ -7,12 +8,12 @@ import Message from "../../Message";
 import { closeMessage } from "../../closeMessage";
 
 export default function Comment() {
-  const [words, setWords] = React.useState([]);
-  const [wordAlready, setWordAlready] = React.useState("");
+  const [words, setWords] = useState([]);
+  const [wordAlready, setWordAlready] = useState("");
 	const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
 
     const fetchWords = async () => {

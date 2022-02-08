@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
-
+import { useState, useEffect } from "react";
 export default function BestNews() {
-	const [ news, setNews ] = React.useState([]);
+	const [ news, setNews ] = useState([]);
 
-	React.useEffect(() => {
+	useEffect(() => {
     try {
 		  const channelId = sessionStorage.getItem("userId");
       const fetchData = async () => {
