@@ -22,15 +22,6 @@ export default function OtherNews(tags, newByTag, newsHighlightId, highlightNew)
 
 		 if (highlightNewTags) {
 			let tagsOtherNews = [];
-
-			for (let j = 0; j < tags.length; j++) {
-			   for (let i = 0; i < highlightNewTags.length; i++) {
-				  if (tags[j] === highlightNewTags[i]) {
-					 tagsOtherNews.push(tags[j]);
-				  }
-			   }
-			}
-
 			const otherNewsTags = tags.filter((tag) => !highlightNewTags.includes(tag));
 			setTagsOtherNews(otherNewsTags);
 		 }
