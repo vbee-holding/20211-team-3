@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import {Helmet} from 'react-helmet';
 import axios from "axios";
 
@@ -8,13 +8,13 @@ import FeaturedChannel from "../home/FeaturedChannel";
 import LatestNew from "../home/LatestNew";
 
 export default function Category({ match }) {
-   const [highlightNew, setHighlightNew] = React.useState({});
-   const [categoryName, setCategoryName] = React.useState("");
-   const [tags, setTags] = React.useState([]);
-   const [newByTag, setNewByTag] = React.useState([]);
+   const [highlightNew, setHighlightNew] = useState({});
+   const [categoryName, setCategoryName] = useState("");
+   const [tags, setTags] = useState([]);
+   const [newByTag, setNewByTag] = useState([]);
    const id = match.params.id;
 
-   React.useEffect(() => {
+   useEffect(() => {
 	  const fetchData = async () => {
 		 const res = await axios.get(`/news/categories/${id}`);
 

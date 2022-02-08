@@ -34,7 +34,7 @@ export default function FeaturedNew() {
               <div className="featured-new__info">
                 <h4 className="featured-new__title">{item.title}</h4>
                 {/* <span>{item.createdBy.username}</span> */}
-                <p className="featured-new__createby text-secondary"><i className="mdi mdi-monitor" /> {item.createdBy !== null? item.createdBy.username : ""} - <i className="mdi mdi-av-timer" /> {moment(item.dateCreate).format("DD-MM-YYYY")} - <i className="mdi mdi-eye" /> {item.view}</p>
+                <p className="featured-new__createby text-secondary"><i className="mdi mdi-monitor" /> { item?.createdByitem?.username || ""} - <i className="mdi mdi-av-timer" /> {moment(item.dateCreate).format("DD-MM-YYYY")} - <i className="mdi mdi-eye" /> {item.view}</p>
               </div>
             </Link>
           ))
