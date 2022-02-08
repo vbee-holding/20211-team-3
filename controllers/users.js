@@ -5,7 +5,7 @@ var router = express.Router();
 const UserModel = require("../models/User");
 
 module.exports = {
-    users : async (req, res, next) => {
+    getUsers : async (req, res, next) => {
         const users = await UserModel.find({});
       
         try {
@@ -20,7 +20,7 @@ module.exports = {
           })
         }
       },
-      channels : async (req, res, next) => {
+      getChannels : async (req, res, next) => {
         const users = await UserModel.find({ role: "journalist" }).limit(4).sort({ follow: -1 });
       
         try {
@@ -36,7 +36,7 @@ module.exports = {
         }
       },
 
-      locked : async (req, res, next) => {
+      lockUser : async (req, res, next) => {
         const userExist = await UserModel.find({ _id: req.params.id });
       
         try {
@@ -58,6 +58,164 @@ module.exports = {
             message: "Khóa tài khoản thất bại",
             error: TypeError,
           })
+        }
+      },
+      
+    updateName : async (req, res) => {
+        const userExist = await UserModel.findOne({ _id: req.params.id });
+      
+        if (userExist) {
+          try {
+            const user = {
+              username: req.body.userName
+            };
+      
+            const updateUserName = await UserModel.findOneAndUpdate(
+              { _id: req.params.id },
+              user,
+              {
+                new: true,
+                useFindAndModify: false
+              }
+            );
+      
+            if (updateUserName) {
+              res.json({
+                data: updateUserName,
+                code: 200,
+                message: "Cập nhật name thành công"
+              });
+            }
+          } catch (error) {
+            res.status(500).json({
+              message: error
+            });
+          }
+        }
+      },
+      updateEmail : async (req, res) => {
+        const userExist = await UserModel.findOne({ _id: req.params.id });
+        const emailExist = await UserModel.findOne({ email: req.body.email });
+      
+        if (userExist) {
+          if (emailExist) {
+            res.json({
+              code: 404,
+              message: "Email đã tồn tại"
+            });
+          } else {
+            try {
+              const user = {
+                email: req.body.email
+              };
+      
+              const updateUserEmail = await UserModel.findOneAndUpdate(
+                { _id: req.params.id },
+                user,
+                {
+                  new: true,
+                  useFindAndModify: false
+                }
+              );
+      
+              if (updateUserEmail) {
+                res.json({
+                  code: 200,
+                  data: updateUserEmail,
+                  message: "Cập nhật email thành công"
+                });
+              }
+            } catch (error) {
+              res.status(500).json({
+                message: error
+              });
+            }
+          }
+        }
+      },
+      updatePassword : async (req, res) => {
+        const userExist = await UserModel.findOne({ _id: req.params.id });
+      
+        if (userExist) {
+          const comparePassword = await bcrypt.compare(
+            req.body.currentPassword,
+            userExist.password
+          );
+      
+          if (comparePassword) {
+            try {
+              const hashPassword = await bcrypt.hash(req.body.newPassword, 8);
+      
+              const user = {
+                password: hashPassword
+              };
+      
+              const updateUserPassword = await UserModel.findOneAndUpdate(
+                { _id: req.params.id },
+                user,
+                {
+                  new: true,
+                  useFindAndModify: false
+                }
+              );
+      
+              if (updateUserPassword) {
+                res.json({
+                  data: updateUserPassword,
+                  code: 200,
+                  message: "Cập nhật password thành công"
+                });
+              }
+            } catch (error) {
+              res.status(500).json({
+                message: error
+              });
+            }
+          } else {
+            res.json({
+              code: 404,
+              message: "Nhập password hiện tại không đúng"
+            });
+          }
+        }
+      },
+      uploadAvatar : async (req, res) => {
+        const userExist = await UserModel.findOne({ _id: req.params.id });
+      
+        if (userExist) {
+          const file = req.files.file;
+      
+          if (file) {
+            try {
+              file.mv(`${__dirname}/../client/public/uploads/users/${file.name}`);
+      
+              const user = {
+                image: file.name
+              };
+      
+              const updateUserAvatar = await UserModel.findOneAndUpdate(
+                { _id: req.params.id },
+                user,
+                {
+                  new: true,
+                  useFindAndModify: false
+                }
+              );
+      
+              if (updateUserAvatar) {
+                res.json({
+                  data: updateUserAvatar,
+                  code: 200,
+                  message: "Thay đổi avatar thành công"
+                });
+              }
+            } catch (error) {
+              res.json({
+                code: 500,
+                message: "Thay đổi avatar thất bại"
+              });
+            }
+          }
         }
       },
       updateRole : async (req, res, next) => {
@@ -83,7 +241,7 @@ module.exports = {
           })
         }
       },
-      delete_user : async function(req, res, next) {
+      deleteUser : async function(req, res, next) {
         const userId = req.params.id;
         const userExist = UserModel.findOne({ _id: userId });
         try {
@@ -109,7 +267,7 @@ module.exports = {
           });
         }
       },
-      get_user :  async (req, res, next) => {
+      getUser :  async (req, res, next) => {
         const users = await UserModel.find({ _id: req.params.id });
       
         try {
