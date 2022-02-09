@@ -7,7 +7,7 @@ import moment from "moment"
 import {CronJob} from "cron"
 
 dotenv.config()
-const service = new Service('http://localhost:3000/')
+const service = new Service(process.env.SERVICE_URL)
 let allCategories = await service.getAllCategories()
 const adminCrawler = process.env.ADMIN_ID
 
@@ -94,17 +94,7 @@ class ArticalCrawler{
     }
 }
 
-service.getAllCategories().then(async (categories)=>{
-    try{
-        console.log('Start: ' + new Date());
-        allCategories = categories
-        let crawler = new ArticalCrawler()
-        crawler.crawl()
-    }catch(error){
-        console.log(err)
-    }  
-})
-var job = new CronJob('*/1 * * * *', function() {
+function jobRunFunc(){
     service.getAllCategories().then(async (categories)=>{
         try{
             console.log('Start: ' + new Date());
@@ -115,5 +105,9 @@ var job = new CronJob('*/1 * * * *', function() {
             console.log(err)
         }  
     })
+}
+
+var job = new CronJob('*/1 * * * *', function() {
+    jobRunFunc()
   }, null, true);
   job.start();
