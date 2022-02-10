@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ReactTable from "react-table-v6";
@@ -12,21 +11,13 @@ import moment from "moment";
 import Confirm from "../Confirm";
 
 export default function NewsManagement() {
-  let [reset, setReset] = useState(true);
-  let [IdDelete,setidDelete] = useState('');
-  let [deleteDisplay, setDeleteDisplay] = useState(false);
-  const [news, setNews] = React.useState([]);
+  const [reset, setReset] = useState(true);
+  const [IdDelete,setidDelete] = useState('');
+  const [deleteDisplay, setDeleteDisplay] = useState(false);
+  const [news, setNews] = useState([]);
   const dispatch = useDispatch();
 
-  const deleteNews = async (e) => {
-    await hanldeTrash(e);
-  }
-
-  const cancelConfirm = () => {
-    setDeleteDisplay(false)
-  }
-
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
     const fetchNews = async () => {
       const res = await axios.get("/news");
@@ -35,6 +26,10 @@ export default function NewsManagement() {
     };
     fetchNews();
   }, [dispatch, reset]);
+
+  const cancelConfirm = () => {
+    setDeleteDisplay(false)
+  }
 
   // move to trash
   const hanldeTrash = async id => {
@@ -66,7 +61,7 @@ export default function NewsManagement() {
       filterable: true,
       maxWidth: 150,
       Cell: props => {
-        return (<div style={{textAlign:"center"}}>{props.original.cateNews === undefined ? "": props.original.cateNews.name}</div>)
+        return (<div style={{textAlign:"center"}}>{props.original.cateNews ? props.original.cateNews.name: ""}</div>)
       }
     },
     {
@@ -122,7 +117,6 @@ export default function NewsManagement() {
               onClick={() => {
                 setDeleteDisplay(true);
                 setidDelete(props.original._id);
-                // hanldeTrash(props.original._id);
               }}
             >
               <i className="mdi mdi-table-remove"></i>
@@ -139,7 +133,6 @@ export default function NewsManagement() {
           <span className="page-title-icon bg-gradient-danger text-white mr-2">
             <i className="mdi mdi-view-list" />
           </span>
-          
           Danh sách các bài báo 
         </h3>
         <nav aria-label="breadcrumb">
@@ -181,17 +174,14 @@ export default function NewsManagement() {
             data={news}
             filterable
             defaultPageSize={10}
-            noDataText={"Please wait..."}
             className="table mt-3"
           />
         </div>
       </div>
       {deleteDisplay && <Confirm
-        callBackCancel = {() => {
-          cancelConfirm();
-        }}
+        callBackCancel = {cancelConfirm}
         callBackDelete = {() => {
-          deleteNews(IdDelete);
+          hanldeTrash(IdDelete);
           cancelConfirm();
         }}
       /> }

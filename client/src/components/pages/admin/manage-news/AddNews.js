@@ -1,27 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 import { setMessage } from "../../../../actions/message.action";
-import  Message from "../../Message";
+import Message from "../../Message";
 import { closeMessage } from "../../closeMessage";
 
 export default function AddNews() {
-  const { register, handleSubmit, errors } = useForm();
-  const [content, setContent] = React.useState(null);
-  const [tag, setTag] = React.useState("");
-  const [tagAlready, setTagAlready] = React.useState("");
-  const [tags, setTags] = React.useState([]);
-  const [file, setFile] = React.useState(null);
-  const [categories, setCategories] = React.useState([]);
+  const [content, setContent] = useState(null);
+  const [tag, setTag] = useState("");
+  const [tagAlready, setTagAlready] = useState("");
+  const [tags, setTags] = useState([]);
+  const [file, setFile] = useState(null);
+  const [categories, setCategories] = useState([]);
 
+  const { register, handleSubmit, errors } = useForm();
   const appState = useSelector(state => state);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
 
     const fetchCategories = async () => {
@@ -41,16 +41,15 @@ export default function AddNews() {
   const hanldAddTag = () => {
     if (tag === "" || tag === null) {
       setTagAlready("Bạn cần nhập tag");
-    } else {
-      const tagExist = tags.filter(v => v.toLowerCase() === tag.toLowerCase());
-
-      if (tagExist.length > 0) {
-        setTagAlready("Tag đã tồn tại");
-      } else {
-        setTags([...tags, tag]);
-        setTagAlready("");
-      }
+      return;
     }
+    const tagExist = tags.filter(v => v.toLowerCase() === tag.toLowerCase());
+    if (tagExist.length > 0) {
+      setTagAlready("Tag đã tồn tại");
+      return;
+    } 
+    setTags([...tags, tag]);
+    setTagAlready("");
   };
 
   // remove tag
@@ -101,10 +100,10 @@ export default function AddNews() {
           <span className="page-title-icon bg-gradient-danger text-white mr-2">
             <i className="mdi mdi-format-list-bulleted" />
           </span>
-          Add news
+          Thêm bài báo
         </h3>
       </div>
-      <div className="row" style={{ padding:"0px 30px"}}>
+      <div className="row" style={{ padding: "0px 30px" }}>
         <div className="col-xl-12 grid-margin">
           <form onSubmit={handleSubmit(onSunmit)} className="w-100">
             <Message />
@@ -124,13 +123,13 @@ export default function AddNews() {
             </div>
             <div className="form-group">
               <label>Sapo:</label>
-                <input
-                  type="text"
-                  name="sapo"
-                  className="form-control"
-                  placeholder="Nhập Sapo"
+              <input
+                type="text"
+                name="sapo"
+                className="form-control"
+                placeholder="Nhập Sapo"
 
-                />
+              />
             </div>
             <div className="form-group">
               <label>Nội dung:</label>
@@ -193,12 +192,10 @@ export default function AddNews() {
                   </small>
                 )}
               </div>
-              {tagAlready ? (
+              {tagAlready && (
                 <div>
                   <small className="text-danger">{tagAlready}</small>
                 </div>
-              ) : (
-                ""
               )}
             </div>
             <div className="form-group">
@@ -236,7 +233,6 @@ export default function AddNews() {
             </div>
             <div className="form-group">
               <label>Trạng thái:</label>
-              {/* <Select options={["a", "b"]} defaultValue="a"></Select> */}
               <select
                 name="status"
                 className="form-control"
@@ -246,7 +242,7 @@ export default function AddNews() {
               </select>
             </div>
             <div className="form-group">
-            <label>Đường dẫn bài viết gốc (Nếu có):</label>
+              <label>Đường dẫn bài viết gốc (Nếu có):</label>
               <input
                 type="text"
                 name="originalLink"
@@ -254,8 +250,8 @@ export default function AddNews() {
               />
             </div>
             <button type="submit" className="btn btn-danger bety-btn">
-                Submit
-              </button>
+              Submit
+            </button>
           </form>
         </div>
       </div>
