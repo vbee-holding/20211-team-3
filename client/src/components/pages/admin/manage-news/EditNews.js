@@ -32,8 +32,6 @@ export default function EditNews({ match }) {
     const fetchNew = async () => {
       const res = await axios.get(`/news/new/${match.params.id}`);
       const data = res.data.data[0];
-      // newData.originalLink = newData.originalLink || ""
-
       setNewData(data);
       setTags(data.tag);
     };
@@ -80,30 +78,25 @@ export default function EditNews({ match }) {
     setFile(e.target.files[0]);
   };
 
-  const hanldeSubmit = async e => {
+  const handleSubmit = async e => {
     e.preventDefault();
+    const formData = new FormData();
 
-    try {
-      const formData = new FormData();
-
-      formData.append('title', news.title || newData.title);
-      formData.append('categoryId', news.category || newData.cateNews._id);
-      formData.append('content', content || newData.content);
-      formData.append('tags', JSON.stringify(tags));
-      formData.append("file", file || newData.articlePicture);
-      formData.append("status", news.status || newData.status);
-      formData.append("sapo", news.sapo || newData.sapo || "");
-      formData.append("originalLink", news.originalLink || newData.originalLink || "");
+    formData.append('title', news.title || newData.title);
+    formData.append('categoryId', news.category || newData.cateNews._id);
+    formData.append('content', content || newData.content);
+    formData.append('tags', JSON.stringify(tags));
+    formData.append("file", file || newData.articlePicture);
+    formData.append("status", news.status || newData.status);
+    formData.append("sapo", news.sapo || newData.sapo || "");
+    formData.append("originalLink", news.originalLink || newData.originalLink || "");
 
 
-      const res = await axios.put(`/news/${match.params.id}`, formData);
-      const { code, message } = res.data;
+    const res = await axios.put(`/news/${match.params.id}`, formData);
+    const { code, message } = res.data;
 
-      dispatch(setMessage({ code, message }));
-      dispatch(closeMessage());
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(setMessage({ code, message }));
+    dispatch(closeMessage());
   };
 
   return (
@@ -113,7 +106,7 @@ export default function EditNews({ match }) {
           <span className="page-title-icon bg-gradient-danger text-white mr-2">
             <i className="mdi mdi-format-list-bulleted" />
           </span>
-          Edit
+          Chỉnh sửa
         </h3>
         <nav aria-label="breadcrumb">
           <ul className="breadcrumb">
@@ -125,9 +118,9 @@ export default function EditNews({ match }) {
           </ul>
         </nav>
       </div>
-      <div className="row" style={{ padding:"0px 30px"}}>
+      <div className="row" style={{ padding: "0px 30px" }}>
         <div className="col-xl-12 grid-margin">
-          <form onSubmit={hanldeSubmit} className="w-100">
+          <form onSubmit={handleSubmit} className="w-100">
             <Message />
             <div className="form-group">
               <label>Tiêu đề:</label>
@@ -208,12 +201,10 @@ export default function EditNews({ match }) {
                   </small>
                 )}
               </div>
-              {tagAlready ? (
+              {tagAlready && (
                 <div>
                   <small className="text-danger">{tagAlready}</small>
                 </div>
-              ) : (
-                ""
               )}
             </div>
             <div className="form-group">

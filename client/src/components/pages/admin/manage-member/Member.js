@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactTable from "react-table-v6"
 import 'react-table-v6/react-table.css'
@@ -10,11 +10,11 @@ import Message from "../../Message";
 import { closeMessage } from "../../closeMessage";
 
 export default function Member() {
-  const [users, setUsers] = React.useState([]);
-  const [usersData, setUsersData] = React.useState([]);
+  const [users, setUsers] = useState([]);
+  const [usersData, setUsersData] = useState([]);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
     const fetchUsers = async () => {
       const res = await axios.get("/users");
@@ -26,59 +26,53 @@ export default function Member() {
     fetchUsers();
   }, [dispatch]);
 
-  const handleChangeRole = (id, value) => {
-    users.filter(async (user, index) => {
-      if (user._id === id) {
-        const res = await axios.put(`/users/updateRole/${id}`, { role: value });
-        const { code, message, data } = res.data;
-
-        setUsers(data);
-        setUsersData(data);
-        dispatch(setMessage({ code, message }));
-        dispatch(closeMessage());
-      }
-    });
+  const handleChangeRole = async (id, value) => {
+    const userExist = users.find(item => item._id === id);
+    if (!userExist)
+      return
+    const res = await axios.put(`/users/updateRole/${id}`, { role: value });
+    const { code, message, data } = res.data;
+    setUsers(data);
+    setUsersData(data);
+    dispatch(setMessage({ code, message }));
+    dispatch(closeMessage());
   };
 
   // locked user
-  const handleLockUser = (id, isDelete) => {
-    users.filter(async (user, index) => {
-      if (user._id === id) {
-        const res = await axios.post(`/users/locked/${id}`, {
-          isDelete: !isDelete
-        });
-        const { code, message, data } = res.data;
-
-        setUsers(data);
-        setUsersData(data);
-        dispatch(setMessage({ code, message }));
-        dispatch(closeMessage());
-      }
+  const handleLockUser = async (id, isDelete) => {
+    const userExist = users.find(item => item._id === id);
+    if (!userExist)
+      return
+    const res = await axios.post(`/users/locked/${id}`, {
+      isDelete: !isDelete
     });
+    const { code, message, data } = res.data;
+    setUsers(data);
+    setUsersData(data);
+    dispatch(setMessage({ code, message }));
+    dispatch(closeMessage());
   };
 
   // delete user
-  const handleDeleteUser = id => {
-    users.filter(async (user, index) => {
-      if (user._id === id) {
-        const res = await axios.delete(`/users/${id}`);
-        const { code, message, data } = res.data;
-
-        setUsers(data);
-        setUsersData(data);
-        dispatch(setMessage({ code, message }));
-        dispatch(closeMessage());
-      }
-    });
+  const handleDeleteUser = async (id) => {
+    const userExist = users.find(item => item._id === id);
+    if (!userExist)
+      return
+    const res = await axios.delete(`/users/${id}`);
+    const { code, message, data } = res.data;
+    setUsers(data);
+    setUsersData(data);
+    dispatch(setMessage({ code, message }));
+    dispatch(closeMessage());
   }
 
   // filter ROLE
-  const hanldeFilterRole = (role) => {
+  const hanldeFilterRole = (e) => {
+    const role = e.target.value;
     if (role === "all") {
       setUsersData(users);
     } else {
       const rs = users.filter(user => user.role === role);
-
       setUsersData(rs);
     }
   };
@@ -134,7 +128,7 @@ export default function Member() {
                   onChange={e =>
                     handleChangeRole(props.original._id, e.target.value)
                   }
-                  value = {props.original.role}
+                  value={props.original.role}
                 >
                   <option value="admin">admin</option>
                   <option value="customer">customer</option>
@@ -178,14 +172,14 @@ export default function Member() {
                 <i className="mdi mdi-account-off"></i>
               )}
             </button>
-            {/* <button
+            <button
               type="button"
               className="btn btn-danger btn-sm"
               title="Xóa tài khoản"
-              onClick={() => handleDeleteUser(props.original._id)}
+              onClick={handleDeleteUser}
             >
               <i className="mdi mdi-account-remove"></i>
-            </button> */}
+            </button>
           </div>
         );
       }
@@ -202,10 +196,10 @@ export default function Member() {
         </h3>
       </div>
       <div className="row">
-        <div className="col-xl-12 stretch-card" style={{ padding:"0px 30px"}}>
+        <div className="col-xl-12 stretch-card" style={{ padding: "0px 30px" }}>
           <div className="form-group w-100" >
             <label>Lọc người dùng:</label>
-            <select onClick={(e) => hanldeFilterRole(e.target.value)} className="form-control form-control-sm">
+            <select onClick={hanldeFilterRole} className="form-control form-control-sm">
               <option value="all">All</option>
               <option value="admin">Admin</option>
               <option value="customer">Customer</option>
@@ -215,13 +209,12 @@ export default function Member() {
         <div className="col-xl-12">
           <Message />
         </div>
-        <div className="col-xl-12 grid-margin stretch-card" style={{ padding:"0px 30px"}}>
+        <div className="col-xl-12 grid-margin stretch-card" style={{ padding: "0px 30px" }}>
           <ReactTable
             columns={columns}
             data={usersData}
             filterable
             defaultPageSize={10}
-            noDataText={"Please wait..."}
             className="table mt-3 text-center"
           />
         </div>

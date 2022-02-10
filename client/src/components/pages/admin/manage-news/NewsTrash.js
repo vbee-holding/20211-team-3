@@ -3,19 +3,19 @@ import axios from "axios";
 import ReactTable from "react-table-v6";
 import { setMessage } from "../../../../actions/message.action";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Message from "../../Message";
 import { closeMessage } from "../../closeMessage";
 import Confirm from "../Confirm";
 
 export default function NewsTrash() {
-  let [deleteDisplay, setDeleteDisplay] = useState(false);
-  let [IdDelete,setidDelete] = useState('');
-  const [news, setNews] = React.useState([]);
+  const [deleteDisplay, setDeleteDisplay] = useState(false);
+  const [IdDelete,setidDelete] = useState('');
+  const [news, setNews] = useState([]);
   const dispatch = useDispatch();
   const userId = sessionStorage.getItem("userId");
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(setMessage({ message: "" }));
     const fetchNews = async () => {
       const res = await axios.get(`/news/trash`);
@@ -96,7 +96,6 @@ export default function NewsTrash() {
               onClick={() => {
                 setDeleteDisplay(true);
                 setidDelete(props.original._id);
-                // hanldeDelete(props.original._id)
               }
               }
             >
@@ -127,7 +126,6 @@ export default function NewsTrash() {
             data={news}
             filterable
             defaultPageSize={5}
-            noDataText={"Please wait..."}
             className="table mt-3"
           />
         </div>
