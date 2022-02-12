@@ -7,7 +7,7 @@ import { hanldeUrlPretty } from "../../mixin/UrlPretty";
 export default function HightlightedNews({news}) {
   return (
     <div>
-      <h3 className="mb-3">Tin tức nổi bật</h3>
+      <h3 className="mb-3 text-red font-weight">Tin tức nổi bật</h3>
       {news ? (
         <Link
           to={`/${news.title && hanldeUrlPretty(news.title)}/${news._id}`}

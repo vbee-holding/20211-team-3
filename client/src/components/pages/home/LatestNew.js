@@ -21,7 +21,7 @@ export default function LatestNew() {
 
   return (
     <div>
-      <h3 className="mb-3">Tin tức mới nhất</h3>
+      <h3 className="mb-3 text-red font-weight mt-3">Tin tức mới nhất</h3>
       {
         latest
           ? (

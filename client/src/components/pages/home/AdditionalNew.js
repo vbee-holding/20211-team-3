@@ -1,13 +1,14 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 import Loading from "../../Loading";
 import { hanldeUrlPretty } from "../../mixin/UrlPretty";
-
+import moment from "moment";
 const style = {
-  textDecoration: "underline"
-};
+  borderTop: "1px solid #bbbbbb"
+}
+
 
 export default function AdditionalNew() {
   const [newsReel, setNewsReel] = useState([]);
@@ -38,29 +39,26 @@ export default function AdditionalNew() {
 
   return (
     <React.Fragment>
-      <div className="col-lg-6">
-        <h3 className="mb-3" style={style}>
-          Thời sự
-        </h3>
-        <div className="card-columns">
+      <h3 className="mb-3 text-red font-weight pt-3" style={style}>
+        Thời sự
+      </h3>
+      <div className="col-lg-12 p-1">
+        <div className="row">
           {newsReel ? (
             newsReel.map((item, index) => (
-              <Link
-                to={`/${hanldeUrlPretty(item.title)}/${item._id}`}
-                key={index}
-                className="card text-decoration-none hover-sm"
-              >
-                <div className="card bg-dark text-white">
-                  <div className="selected-news">
-                    <img
-                      src={`/uploads/news/${item.articlePicture}`}
-                      className="card-img-top"
-                      alt={item.title}
-                    />
-                  </div>
-                  <div className="card-img-overlay">
-                    <h6 className="card-title">{item.title}</h6>
-                  </div>
+              <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="additonal-new p-3 bg-white rounded text-decoration-none col-lg-5 m-2 text-color">
+                <div className="other-new__image border border-secondary">
+                  <img
+                    src={item.content === "" ? item.articlePicture : `/uploads/news/${item.articlePicture}`}
+                    alt={item.title}
+                  />
+                </div>
+                <div className="other-new__info">
+                  <h4 className="other-new__title">{item.title}</h4>
+                  <i className="mdi mdi-av-timer" /> {moment(item.dateCreate).format("DD-MM-YYYY")} -{" "}
+									<i className="mdi mdi-eye" /> {item.view}
+									<br></br>
+									{item.source && (<span className="news-source-title"> Nguồn: {item.source}</span>)}
                 </div>
               </Link>
             ))
@@ -69,32 +67,29 @@ export default function AdditionalNew() {
           )}
         </div>
       </div>
-      <div className="col-lg-6">
-        <h3 className="mb-3" style={style}>
-          Giải trí
-        </h3>
-        <div className="card-columns">
+      <h3 className="mb-3 text-red font-weight pt-3" style={style}>
+        Giải trí
+      </h3>
+      <div className="col-lg-12 p-1">
+        <div className="row">
           {newsEntertainment
             ? newsEntertainment.map((item, index) => (
-                <Link
-                  to={`/${hanldeUrlPretty(item.title)}/${item._id}`}
-                  key={index}
-                  className="card text-decoration-none hover-sm"
-                >
-                  <div className="card bg-dark text-white">
-                    <div className="selected-news">
-                      <img
-                        src={`/uploads/news/${item.articlePicture}`}
-                        className="card-img-top"
-                        alt={item.title}
-                      />
-                    </div>
-                    <div className="card-img-overlay">
-                      <h6 className="card-title">{item.title}</h6>
-                    </div>
-                  </div>
-                </Link>
-              ))
+              <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="additonal-new p-3 bg-white rounded text-decoration-none col-lg-5 m-2 text-color">
+                <div className="other-new__image border border-secondary">
+                  <img
+                    src={item.content === "" ? item.articlePicture : `/uploads/news/${item.articlePicture}`}
+                    alt={item.title}
+                  />
+                </div>
+                <div className="other-new__info">
+                  <h4 className="other-new__title ">{item.title}</h4>
+                  <i className="mdi mdi-av-timer" /> {moment(item.dateCreate).format("DD-MM-YYYY")} -{" "}
+									<i className="mdi mdi-eye" /> {item.view}
+									<br></br>
+									{item.source && (<span className="news-source-title"> Nguồn: {item.source}</span>)}
+                </div>
+              </Link>
+            ))
             : null}
         </div>
       </div>
