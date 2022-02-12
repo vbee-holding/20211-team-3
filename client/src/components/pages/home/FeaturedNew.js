@@ -1,4 +1,4 @@
-import React,{useMemo} from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -24,20 +24,22 @@ export default function FeaturedNew() {
     <React.Fragment>
       {featured
         ? featured.map((item, index) => (
-            <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="featured-new p-3 bg-white rounded text-decoration-none">
-              <div className="featured-new__image border border-secondary">
-                <img
-                  src={item.content === "" ? item.articlePicture: `/uploads/news/${item.articlePicture}`}
-                  alt={item.title}
-                />
-              </div>
-              <div className="featured-new__info">
-                <h4 className="featured-new__title">{item.title}</h4>
-                {/* <span>{item.createdBy.username}</span> */}
-                <p className="featured-new__createby text-secondary"><i className="mdi mdi-monitor" /> { item?.createdByitem?.username || ""} - <i className="mdi mdi-av-timer" /> {moment(item.dateCreate).format("DD-MM-YYYY")} - <i className="mdi mdi-eye" /> {item.view}</p>
-              </div>
-            </Link>
-          ))
+          <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="featured-new p-3 bg-white rounded text-decoration-none">
+            <div className="featured-new__image border border-secondary">
+              <img
+                src={item.content === "" ? item.articlePicture : `/uploads/news/${item.articlePicture}`}
+                alt={item.title}
+              />
+            </div>
+            <div className="featured-new__info">
+              <h4 className="featured-new__title">{item.title}</h4>
+              <i className="mdi mdi-av-timer" /> {moment(item.dateCreate).format("DD-MM-YYYY")} -{" "}
+              <i className="mdi mdi-eye" /> {item.view}
+              <br></br>
+              {item.source && (<span className="news-source-title"> Nguồn: {item.source}</span>)}
+            </div>
+          </Link>
+        ))
         : (<BoxLoadingItem />)}
     </React.Fragment>
   );
