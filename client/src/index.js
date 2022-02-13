@@ -11,7 +11,6 @@ import allReducers from "./reducers";
 
 const store = createStore(allReducers, applyMiddleware(thunk));
 
-
 // STORE -> GLOBALIZE STATE
 
 // ACTION

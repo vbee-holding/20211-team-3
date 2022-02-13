@@ -5,6 +5,7 @@ export const addUser = data => ({
   payload: data
 });
 
+
 const setUsers = (data) => ({
   type: "GET_USERS",
   payload: data
