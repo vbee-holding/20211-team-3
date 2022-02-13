@@ -1,7 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import {Helmet} from 'react-helmet';
 import axios from "axios";
-import { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -21,7 +21,7 @@ export default function Login({ history }) {
 
    const onSubmit = async (data, e) => {
 		const {name, value, type} = e.target;
-
+		console.log("muot");
 	  setUser({
 		 ...user,
 		 [name]: type === "checkbox" ? setRemember(!remember) : value
@@ -41,6 +41,7 @@ export default function Login({ history }) {
 			const { code, message } = res.data;
 
 			sessionStorage.setItem("userId", userId);
+			localStorage.setItem("userId", userId);
 
 			dispatch(addUser(res.data.data));
 			dispatch(setMessage({ code, message }));
@@ -53,7 +54,7 @@ export default function Login({ history }) {
 		 dispatch(setMessage({ code, message }));
 		 dispatch(closeMessage({ code, message }));
 	  } catch (error) {
-		console.log("Have a problem", error);
+		 if (error) console.log("Have a problem", error);
 	  }
    };
 
