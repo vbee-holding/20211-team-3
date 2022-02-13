@@ -8,10 +8,18 @@ import { closeMessage } from "../closeMessage";
 
 export default function Infomation() {
   const {users} = useSelector(state => state);
+  // const [users, setUsers] = useState("");
+  // const appState = useSelector(state => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
   }, [users]);
+
+  // useEffect(() => {
+  //   if (appState.users.data) {
+  //     setUsers(appState.users.data);
+  //   }
+  // }, [appState.users.data]);
 
   const hanldeChangeUpload = async e => {
     const formData = new FormData();

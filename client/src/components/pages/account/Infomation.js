@@ -1,18 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
 
 export default function Infomation() {
-  const [ users, setUsers ] = useState("");
-  const appState = useSelector(state => state);
-
-  useEffect(() => {
-    if (appState.users.data) {
-      setUsers(appState.users.data);
-    }
-    
-  }, [appState.users.data]);
-
+  const {users} = useSelector(state => state);
   return (
     <ul className="list-group shadow">
       <li className="list-group-item text-muted">
@@ -22,19 +12,19 @@ export default function Infomation() {
         <span>
           <strong>Tên: </strong>
         </span>
-        {users.username}
+        {users.data?.username}
       </li>
       <li className="list-group-item text-left">
         <span>
           <strong>Email: </strong>
         </span>
-        {users.email}
+        {users.data?.email}
       </li>
       <li className="list-group-item text-left">
         <span>
           <strong>Quyền: </strong>
         </span>
-        {users.role}
+        {users.data?.role}
       </li>
     </ul>
   );
