@@ -74,7 +74,7 @@ export default function AddNews() {
       const formData = new FormData();
 
       formData.append("title", data.title);
-      formData.append("category", data.category);
+      formData.append("cateNews", data.category);
       formData.append("content", content || "");
       formData.append("tags", JSON.stringify(tags));
       formData.append("createdBy", appState.users.data._id);
@@ -85,6 +85,7 @@ export default function AddNews() {
 
       const res = await axios.post("/news", formData);
       const { code, message } = res.data;
+      console.log(data)
 
       dispatch(setMessage({ code, message }));
       dispatch(closeMessage());
@@ -128,7 +129,7 @@ export default function AddNews() {
                 name="sapo"
                 className="form-control"
                 placeholder="Nhập Sapo"
-
+                ref = {register()}
               />
             </div>
             <div className="form-group">
@@ -171,7 +172,7 @@ export default function AddNews() {
                 name="tags"
                 className="form-control"
                 placeholder="Enter new tag..."
-                value={tag || ""}
+                value={tag || []}
                 onChange={hanldChangeTag}
               />
               <div className="mt-2">
@@ -236,6 +237,7 @@ export default function AddNews() {
               <select
                 name="status"
                 className="form-control"
+                ref={register()}
               >
                 <option value="published">Xuất bản</option>
                 <option value="unpublished">Chưa xuất bản</option>
@@ -247,6 +249,7 @@ export default function AddNews() {
                 type="text"
                 name="originalLink"
                 className="form-control"
+                ref={register()}
               />
             </div>
             <button type="submit" className="btn btn-danger bety-btn">

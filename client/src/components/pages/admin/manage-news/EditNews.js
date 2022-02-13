@@ -83,7 +83,7 @@ export default function EditNews({ match }) {
     const formData = new FormData();
 
     formData.append('title', news.title || newData.title);
-    formData.append('categoryId', news.category || newData.cateNews._id);
+    formData.append('cateNews', news.category || newData.cateNews._id);
     formData.append('content', content || newData.content);
     formData.append('tags', JSON.stringify(tags));
     formData.append("file", file || newData.articlePicture);
@@ -108,15 +108,6 @@ export default function EditNews({ match }) {
           </span>
           Chỉnh sửa
         </h3>
-        <nav aria-label="breadcrumb">
-          <ul className="breadcrumb">
-            <li className="breadcrumb-item active" aria-current="page">
-              <span />
-              Overview
-              <i className="mdi mdi-alert-circle-outline icon-sm text-danger align-middle" />
-            </li>
-          </ul>
-        </nav>
       </div>
       <div className="row" style={{ padding: "0px 30px" }}>
         <div className="col-xl-12 grid-margin">

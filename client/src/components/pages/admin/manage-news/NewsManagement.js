@@ -9,6 +9,7 @@ import { closeMessage } from "../../closeMessage";
 import Message from "../../Message";
 import moment from "moment";
 import Confirm from "../Confirm";
+import { hanldeUrlPretty } from "../../../mixin/UrlPretty";
 
 export default function NewsManagement() {
   const [reset, setReset] = useState(true);
@@ -47,6 +48,9 @@ export default function NewsManagement() {
       sortable: true,
       filterable: true,
       maxWidth: 250,
+      Cell: props => {
+        return (<a href={`/${hanldeUrlPretty(props.original.title)}/${props.original._id}`}>{props.original._id}</a>)
+      }
     },
     {
       Header: "TÊN BÀI VIẾT",
@@ -56,7 +60,7 @@ export default function NewsManagement() {
     },
     {
       Header: "Thể loại",
-      accessor: "cateNews",
+      accessor: "cateNews.name",
       sortable: true,
       filterable: true,
       maxWidth: 150,
