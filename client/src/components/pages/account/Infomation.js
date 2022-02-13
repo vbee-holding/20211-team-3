@@ -1,11 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 export default function Infomation() {
-  const [ users, setUsers ] = React.useState("");
+  const [ users, setUsers ] = useState("");
   const appState = useSelector(state => state);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (appState.users.data) {
       setUsers(appState.users.data);
     }

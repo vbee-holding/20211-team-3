@@ -1,6 +1,7 @@
 import React from "react";
 import {Helmet} from 'react-helmet';
 import axios from "axios";
+import { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -10,8 +11,8 @@ import { closeMessage } from "../closeMessage";
 import Message from "../Message";
 
 export default function Login({ history }) {
-   const [remember, setRemember] = React.useState(false);
-   const [user, setUser] = React.useState({});
+   const [remember, setRemember] = useState(false);
+   const [user, setUser] = useState({});
    const { register, handleSubmit, errors } = useForm();
 
    const token = localStorage.getItem("auth-token");
@@ -19,13 +20,11 @@ export default function Login({ history }) {
    const dispatch = useDispatch();
 
    const onSubmit = async (data, e) => {
-	  const target = e.target;
-	  const name = target.name;
-	  const value = target.value;
+		const {name, value, type} = e.target;
 
 	  setUser({
 		 ...user,
-		 [name]: target.type === "checkbox" ? setRemember(!remember) : value
+		 [name]: type === "checkbox" ? setRemember(!remember) : value
 	  });
 
 	  try {
@@ -54,7 +53,7 @@ export default function Login({ history }) {
 		 dispatch(setMessage({ code, message }));
 		 dispatch(closeMessage({ code, message }));
 	  } catch (error) {
-		 if (error) console.log("Have a problem", error);
+		console.log("Have a problem", error);
 	  }
    };
 
