@@ -50,6 +50,7 @@ export default function NewsOther() {
               to={`/${hanldeUrlPretty(item.title)}/${item._id}`}
               key={index}
               className="other-new p-3 bg-white rounded text-decoration-none"
+              target="_blank" rel="noopener noreferrer" 
             >
               <div className="other-new__image border border-secondary">
                 <img

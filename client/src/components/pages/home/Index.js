@@ -21,7 +21,7 @@ export default function Home() {
             <LatestNew />
           </div>
           <div className="col-lg-6 col-md-7 main-featured-new">
-            <h3 className="mb-3 text-red font-weight mt-3">Tin tức nổi bật</h3>
+            <h3 className="mb-3 text-red font-weight">Tin tức nổi bật</h3>
             <FeaturedNew />
           </div>
           <div className="col-lg-3 col-md-12">
