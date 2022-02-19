@@ -37,6 +37,7 @@
     "nodemon": "^2.0.15",
     "react-datepicker": "^4.5.0",
     "react-helmet": "^6.1.0",
-    "react-month-picker": "^2.2.1"
+    "react-month-picker": "^2.2.1",
+    "uuid": "^8.3.2"
   }
 }
