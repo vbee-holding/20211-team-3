@@ -20,6 +20,7 @@ export default function NavUser(props) {
     dispatch(addUser(null));
 
     sessionStorage.removeItem("userId");
+    localStorage.removeItem("userId");
     localStorage.removeItem("auth-token");
   };
 
@@ -102,11 +103,11 @@ export default function NavUser(props) {
                   >
                     <Link className="dropdown-item" to="/login">
                       <i className="fas fa-sign-in-alt mr-4"></i>
-                      <span>Đăng nhập</span>
+                      <span className="text-color">Đăng nhập</span>
                     </Link>
                     <Link className="dropdown-item" to="/register">
                       <i className="far fa-registered mr-4"></i>
-                      <span>Đăng ký</span>
+                      <span className="text-color">Đăng ký</span>
                     </Link>
                   </div>
                 )}

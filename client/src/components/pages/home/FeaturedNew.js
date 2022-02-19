@@ -24,7 +24,7 @@ export default function FeaturedNew() {
     <React.Fragment>
       {featured
         ? featured.map((item, index) => (
-          <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="featured-new p-3 bg-white rounded text-decoration-none">
+          <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="featured-new p-3 bg-white rounded text-decoration-none" target="_blank" rel="noopener noreferrer" >
             <div className="featured-new__image border border-secondary">
               <img
                 src={item.content === "" ? item.articlePicture : `/uploads/news/${item.articlePicture}`}
