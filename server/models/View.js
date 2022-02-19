@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require("moment");
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
@@ -9,9 +10,13 @@ const schema = new Schema({
       type: Boolean,
       default: false
   },
-},
-{ timestamps: true }
-);
+  date: {
+    type: Date,
+    default: () => moment(Date.now())
+      .add(7, "hour")
+      .format("YYYY-MM-DD HH:mm:ss Z")
+  }
+});
 
 const ViewModel = mongoose.model('View', schema);
 
