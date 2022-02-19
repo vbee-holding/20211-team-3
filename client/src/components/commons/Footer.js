@@ -42,83 +42,11 @@ export default function Footer() {
   if (getOther) {
     other = getOther.slice(0, 6);
   }
-
+  
   return (
     <footer className="page-footer font-small indigo bg-dark text-white mt-7">
       {/* Footer Links */}
-      <div className="container text-md-left">
-        {/* Grid row */}
-        <div className="row">
-          {/* Grid column */}
-          <div className="col-md-4 mx-auto">
-            {/* Links */}
-            <h5 className="font-weight-bold text-uppercase mt-3 mb-4">Tin mới</h5>
-            <ul>
-              {
-                latest
-                  ? (
-                    latest.map((item, index) => (
-                      <li className="list-style-none text-secondary" key={index}>
-                        <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} className="text-secondary">
-                          {item.title}
-                        </Link>
-                      </li>
-                    ))
-                  )
-                  : "Loading..."
-              }
-            </ul>
-          </div>
-          {/* Grid column */}
-          <hr className="clearfix w-100 d-md-none" />
-          {/* Grid column */}
-          <div className="col-md-4 mx-auto">
-            {/* Links */}
-            <h5 className="font-weight-bold text-uppercase mt-3 mb-4">Nổi bật</h5>
-            <ul>
-              {
-                featured
-                  ? (
-                    featured.map((item, index) => (
-                      <li className="list-style-none text-secondary" key={index}>
-                        <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} className="text-secondary">
-                          {item.title}
-                        </Link>
-                      </li>
-                    ))
-                  )
-                  : "Loading..."
-              }
-            </ul>
-          </div>
-          {/* Grid column */}
-          <hr className="clearfix w-100 d-md-none" />
-          {/* Grid column */}
-          <div className="col-md-4 mx-auto">
-            {/* Links */}
-            <h5 className="font-weight-bold text-uppercase mt-3 mb-4">Nhiều hơn</h5>
-            <ul>
-              {
-                other
-                  ? (
-                    other.map((item, index) => (
-                      <li className="list-style-none text-secondary" key={index}>
-                        <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} className="text-secondary">
-                          {item.title}
-                        </Link>
-                      </li>
-                    ))
-                  )
-                  : "Loading..."
-              }
-            </ul>
-          </div>
-          {/* Grid column */}
-          <hr className="clearfix w-100 d-md-none" />
-          {/* Grid column */}
-        </div>
-        {/* Grid row */}
-      </div>
+
       {/* Footer Links */}
       <hr />
       <div className="container">

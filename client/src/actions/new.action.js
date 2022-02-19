@@ -22,7 +22,7 @@ const setSearchNews = (data) => ({
 
 export const getNews = () => {
   return async dispatch => {
-    const res = await axios.get("/news/published");
+    const res = await axios.get("/news/featuredNews");
     const data = res.data.data;
 
     dispatch(setNews(data));

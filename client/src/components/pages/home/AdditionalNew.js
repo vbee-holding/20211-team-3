@@ -46,7 +46,7 @@ export default function AdditionalNew() {
         <div className="row">
           {newsReel ? (
             newsReel.map((item, index) => (
-              <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="additonal-new p-3 bg-white rounded text-decoration-none col-lg-5 m-2 text-color">
+              <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="additonal-new p-3 bg-white rounded text-decoration-none col-lg-5 m-2 text-color" target="_blank" rel="noopener noreferrer" >
                 <div className="other-new__image border border-secondary">
                   <img
                     src={item.content === "" ? item.articlePicture : `/uploads/news/${item.articlePicture}`}
@@ -74,7 +74,7 @@ export default function AdditionalNew() {
         <div className="row">
           {newsEntertainment
             ? newsEntertainment.map((item, index) => (
-              <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="additonal-new p-3 bg-white rounded text-decoration-none col-lg-5 m-2 text-color">
+              <Link to={`/${hanldeUrlPretty(item.title)}/${item._id}`} key={index} className="additonal-new p-3 bg-white rounded text-decoration-none col-lg-5 m-2 text-color" target="_blank" rel="noopener noreferrer" >
                 <div className="other-new__image border border-secondary">
                   <img
                     src={item.content === "" ? item.articlePicture : `/uploads/news/${item.articlePicture}`}

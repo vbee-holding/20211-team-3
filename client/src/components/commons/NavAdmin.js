@@ -14,11 +14,12 @@ export default function NavAdmin(props) {
     dispatch(addUser(null));
 
     sessionStorage.removeItem("userId");
+    localStorage.removeItem("userId");
     localStorage.removeItem("auth-token");
   };
 
   return (
-    <nav className="navbar fixed-top navbar-expand-xl navbar-dark bg-dark shadow-sm py-0 px-2">
+    <nav className="navbar fixed-top navbar-expand-xl navbar-dark shadow-sm py-0 px-2 navUser">
       <div className="container">
         <Link to="/" className="navbar-brand">
           <img width="100%" src="/Logo-news.png" alt="Logo news" />
@@ -39,7 +40,7 @@ export default function NavAdmin(props) {
             <CheckAdmin role={props.role} />
           </ul>
           <div>
-            <ul className="navbar-nav mr-0">
+            <ul className="navbar-nav mr-0 ">
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle account"
@@ -70,11 +71,11 @@ export default function NavAdmin(props) {
                   >
                     <Link className="dropdown-item" to="/profile">
                       <i className="far fa-address-card mr-4"></i>
-                      <span>Thông tin</span>
+                      <span className="text-color">Thông tin</span>
                     </Link>
                     <Link className="dropdown-item" to="/admin">
                       <i className="far fa-plus-square mr-4"></i>
-                      <span>Admin</span>
+                      <span className="text-color">Admin</span>
                     </Link>
                     <div className="dropdown-divider" />
                     <Link
@@ -83,7 +84,7 @@ export default function NavAdmin(props) {
                       onClick={hanldLogout}
                     >
                       <i className="fas fa-sign-out-alt mr-4"></i>
-                      <span>Đăng xuất</span>
+                      <span className="text-color">Đăng xuất</span>
                     </Link>
                   </div>
                 ) : (
@@ -93,11 +94,11 @@ export default function NavAdmin(props) {
                   >
                     <Link className="dropdown-item" to="/login">
                       <i className="fas fa-sign-in-alt mr-4"></i>
-                      <span>Đăng nhập</span>
+                      <span className="text-color">Đăng nhập</span>
                     </Link>
                     <Link className="dropdown-item" to="/register">
                       <i className="far fa-registered mr-4"></i>
-                      <span>Đăng ký</span>
+                      <span className="text-color">Đăng ký</span>
                     </Link>
                   </div>
                 )}

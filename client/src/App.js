@@ -27,7 +27,6 @@ const Admin = React.lazy(() => import("./components/pages/admin"));
 
 // news page
 const Category = React.lazy(() => import("./components/pages/category"));
-const Channel = React.lazy(() => import("./components/pages/channel"));
 const Detail = React.lazy(() => import("./components/pages/detail"));
 
 function App() {
@@ -54,7 +53,6 @@ function App() {
 						<Route path="/register" component={Register} />
 						<Route path="/profile" component={Profile} />
 						<Route path="/category/*/:id" component={Category} />
-						<Route path="/channel/*/:id" component={Channel} />
 						<Route path="/*/:id" component={Detail} />
 						<Route path="/*" component={NotFound} />
 					</Switch>

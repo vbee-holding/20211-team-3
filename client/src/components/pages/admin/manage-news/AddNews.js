@@ -85,6 +85,7 @@ export default function AddNews() {
 
       const res = await axios.post("/news", formData);
       const { code, message } = res.data;
+      console.log(data)
 
       dispatch(setMessage({ code, message }));
       dispatch(closeMessage());
@@ -129,7 +130,6 @@ export default function AddNews() {
                 className="form-control"
                 placeholder="Nhập Sapo"
                 ref = {register()}
-
               />
             </div>
             <div className="form-group">

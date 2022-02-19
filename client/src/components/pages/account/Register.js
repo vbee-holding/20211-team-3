@@ -1,18 +1,17 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import {Helmet} from 'react-helmet'
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 
 export default function Register({ history }) {
-  const [msg, setMsg] = useState("");
-  const [showMsg, setShowMsg] = useState("");
+  const [msg, setMsg] = React.useState("");
+  const [showMsg, setShowMsg] = React.useState("");
   const { register, handleSubmit, errors } = useForm();
 
   const token = localStorage.getItem("auth-token");
 
-  useEffect(() => {
+  React.useEffect(() => {
     setShowMsg(msg);
   }, [msg]);
 

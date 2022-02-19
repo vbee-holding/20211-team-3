@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import {Helmet} from 'react-helmet';
 import axios from "axios";
 import { Redirect } from "react-router-dom";
@@ -11,8 +10,8 @@ import { closeMessage } from "../closeMessage";
 import Message from "../Message";
 
 export default function Login({ history }) {
-   const [remember, setRemember] = useState(false);
-   const [user, setUser] = useState({});
+   const [remember, setRemember] = React.useState(false);
+   const [user, setUser] = React.useState({});
    const { register, handleSubmit, errors } = useForm();
 
    const token = localStorage.getItem("auth-token");
@@ -20,11 +19,13 @@ export default function Login({ history }) {
    const dispatch = useDispatch();
 
    const onSubmit = async (data, e) => {
-		const {name, value, type} = e.target;
-		console.log("muot");
+	  const target = e.target;
+	  const name = target.name;
+	  const value = target.value;
+
 	  setUser({
 		 ...user,
-		 [name]: type === "checkbox" ? setRemember(!remember) : value
+		 [name]: target.type === "checkbox" ? setRemember(!remember) : value
 	  });
 
 	  try {
