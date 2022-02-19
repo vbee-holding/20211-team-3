@@ -107,6 +107,8 @@ function jobRunFunc(){
     })
 }
 
+jobRunFunc()
+
 var job = new CronJob('*/1 * * * *', function() {
     jobRunFunc()
   }, null, true);
