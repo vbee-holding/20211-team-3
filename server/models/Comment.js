@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const moment = require("moment");
 
 const ObjectId = mongoose.Schema.Types.ObjectId;
+let timedate = moment().format();
 
 const schema = new Schema({
     news: { type: ObjectId, ref: 'News' },
@@ -12,10 +13,10 @@ const schema = new Schema({
         type: Boolean,
         default: false
     },
-  },
-    { timestamps: true }
-
-);
+    date: { type: Date, default: moment(timedate)
+      .format("YYYY-MM-DD HH:mm:ss Z")
+    }
+});
 
 const CommentModel = mongoose.model('Comments', schema);
 
